@@ -32,8 +32,6 @@ export default function Contatos() {
       } else {
         setError('Permissão negada para acessar os contatos');
       }
-
-
     })();
   }, [])
 
@@ -87,14 +85,15 @@ export default function Contatos() {
               >
                 <View style={{flexDirection:'column'}}>
                   <View style={{flexDirection:'row'}}>
-                    <Text style={{color:"#E1B800", fontWeight:'bold', fontSize:16}}>
+                    <Text style={{color:"#E1B800", fontWeight:'bold', fontSize:16, width: '90%'}} numberOfLines={2}>
                       {contact.firstName} {contact.middleName} {contact.lastName}
                     </Text>                     
                   </View>
                   {getContactData(contact.phoneNumbers, "number")}
                 </View>     
                 <View style={{padding:5, alignSelf:'center'}}>
-                  <FontAwesome5 name="phone" size={24} color="#E1B800"/>
+                  {/* <FontAwesome5 name="phone" size={24} color="#E1B800"/> */}
+                  <FontAwesome5 name="phone" size={24} color="#D3D3D3"/>
                 </View>             
               </TouchableOpacity>
             </View>
@@ -180,7 +179,7 @@ return (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 32,
+    padding: 15,
     justifyContent: 'space-between',
     backgroundColor: '#111111'
   },
