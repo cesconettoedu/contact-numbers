@@ -1,11 +1,11 @@
 import { useEffect , useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform, TextInput } from 'react-native'
 import React from 'react'
-
 
 import * as Contacts from 'expo-contacts'
 
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+
 
 
 export default function Contatos() {
@@ -165,6 +165,12 @@ return (
       </ScrollView>
       {/* <Button title="Voltar para tela inicial" onPress={() => router.back()}/> */}
       {/* INPUT TO SEARCH */}
+
+      <TextInput 
+        style={styles.input}
+        onChangeText={(text) => console.log(text)}
+      
+      />
     </View>
   )
 }
@@ -193,5 +199,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginTop: 10,
   },
+
+  input: {
+    width:'100%',
+    height: 52,
+    borderColor: 'yellow',
+    borderRadius: 4,
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 10,
+    fontSize: 16,
+    color: '#FFFFFF',
+  }
 
 })
