@@ -12,8 +12,8 @@ export default function Contatos() {
   let [error, setError] =useState(undefined);
   let [contacts, setContacts] = useState(undefined);
   let [phone, setPhone] = useState('phone');
-  
-  
+  let [searchName, setSearchName] = useState("");
+
 
   useEffect(() => {
     (async () => {
@@ -53,13 +53,19 @@ export default function Contatos() {
   
   let getContactsRows = () => {
     if (contacts !== undefined) {
-      // Filtra os contatos antes de mapear
+      // Primeiro filtra os contatos com números de telefone
       const filteredContacts = phone === "phone" 
         ? contacts.filter(contact => contact.phoneNumbers && contact.phoneNumbers.length > 0)
         : contacts;
       
+      // Adiciona filtro por nome de busca
+      const searchFiltered = filteredContacts.filter(contact => {
+        const fullName = `${contact.firstName || ''} ${contact.middleName || ''} ${contact.lastName || ''}`.toLowerCase();
+        return fullName.includes(searchName.toLowerCase());
+      });
+      
       // Ordena os contatos por firstName
-      const sortedContacts = [...filteredContacts].sort((a, b) => {
+      const sortedContacts = [...searchFiltered].sort((a, b) => {
         const nameA = (a.firstName || '').toLowerCase();
         const nameB = (b.firstName || '').toLowerCase();
         return nameA.localeCompare(nameB);
@@ -67,38 +73,34 @@ export default function Contatos() {
       
       return sortedContacts.map((contact, index) => {
         return (
-          <View key={index} style={{marginBottom: 20, }}>
-
-            <View style={{flexDirection:'row', justifyContent: 'space-between', gap:5,}}>
-             
+          <View key={index} style={{marginBottom: 20}}>
+            {/* Resto do código do componente permanece igual */}
+            <View style={{flexDirection:'row', justifyContent: 'space-between', gap:5}}>
               <TouchableOpacity style={{justifyContent:'center', padding:5}}
                 onPress={() => handleWhatsappPress(contact.phoneNumbers)}
               >
                 <FontAwesome5 name="whatsapp" size={36} color="#25D366" />
-              </TouchableOpacity>
-             
-              <TouchableOpacity style={{justifyContent:'space-between', flexDirection:'row', width:"85%",paddingHorizontal:10, paddingVertical: 2, borderBottomWidth:1, borderRadius:4, borderColor: '#E1B800' }} 
+              </TouchableOpacity>          
+              <TouchableOpacity 
+                style={{justifyContent:'space-between', flexDirection:'row', width:"85%",paddingHorizontal:10, paddingVertical: 2, borderBottomWidth:1, borderRadius:4, borderColor: '#E1B800' }} 
                 onPress={() => handlePhonePress(contact.phoneNumbers)}
               >
-                    
-                    <View style={{flexDirection:'column'}}>
-                      <View style={{flexDirection:'row'}}>
-                         <Text style={{color:"#E1B800", fontWeight:'bold', fontSize:16}}>{contact.firstName} {contact.middleName} {contact.lastName}</Text>                     
-                      </View>
-                      {getContactData(contact.phoneNumbers, "number")}
-                    </View>
-                
+                <View style={{flexDirection:'column'}}>
+                  <View style={{flexDirection:'row'}}>
+                    <Text style={{color:"#E1B800", fontWeight:'bold', fontSize:16}}>
+                      {contact.firstName} {contact.middleName} {contact.lastName}
+                    </Text>                     
+                  </View>
+                  {getContactData(contact.phoneNumbers, "number")}
+                </View>     
                 <View style={{padding:5, alignSelf:'center'}}>
                   <FontAwesome5 name="phone" size={24} color="#E1B800"/>
-                </View>
-              
-              
+                </View>             
               </TouchableOpacity>
-            
             </View>
           </View>
         )
-      })
+      });
     } else {
       return <Text>Carregando contatos...</Text>
     }
@@ -163,13 +165,13 @@ return (
       <ScrollView style={styles.scrollview}>
         {getContactsRows()}
       </ScrollView>
-      {/* <Button title="Voltar para tela inicial" onPress={() => router.back()}/> */}
-      {/* INPUT TO SEARCH */}
-
+   
       <TextInput 
         style={styles.input}
-        onChangeText={(text) => console.log(text)}
-      
+        onChangeText={setSearchName}  // ele ja passa direto para a variavel
+        placeholder="Buscar contatos..."
+        placeholderTextColor="#666666"
+        value={searchName}
       />
     </View>
   )
