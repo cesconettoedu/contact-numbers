@@ -92,7 +92,6 @@ export default function Contatos() {
                   {getContactData(contact.phoneNumbers, "number")}
                 </View>     
                 <View style={{padding:5, alignSelf:'center'}}>
-                  {/* <FontAwesome5 name="phone" size={24} color="#E1B800"/> */}
                   <FontAwesome5 name="phone" size={24} color="#D3D3D3"/>
                 </View>             
               </TouchableOpacity>
@@ -156,8 +155,8 @@ export default function Contatos() {
 return (
     <View style={styles.container}>
       
-      <View style={styles.option} >
-          <Text style={styles.optionTitle}>Only Contacts with Phone Numbers</Text>
+      <View style={styles.title} >
+          <Text style={styles.titleText}>Only Contacts with Phone Numbers</Text>
       </View>
     
       <Text>{error}</Text>
@@ -183,18 +182,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#111111'
   },
-  option: {
+  title: {
     width: "100%",
     height: 50,
-    backgroundColor: "#E15610",
+  
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 4,
   },
-  optionTitle: {
-    fontSize: 16,
+  titleText: {
+    fontSize: 20,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: "#E1B800",
   },
   scrollview: {
     paddingHorizontal: 10,
@@ -204,7 +203,7 @@ const styles = StyleSheet.create({
   input: {
     width:'100%',
     height: 52,
-    borderColor: 'yellow',
+    borderColor: '#E1B800',
     borderRadius: 4,
     borderWidth: 1,
     marginBottom: 10,
