@@ -214,21 +214,34 @@ export default function Contatos() {
     )
   }
 
-  const getFilteredContacts = () => {
-    if (!contacts) return []
-    
-    return contacts
-      .filter(contact => contact.phoneNumbers?.length > 0)
-      .filter(contact => {
-        const fullName = `${contact.firstName || ''} ${contact.middleName || ''} ${contact.lastName || ''}`.toLowerCase()
-        return fullName.includes(searchName.toLowerCase())
-      })
-      .sort((a, b) => {
-        const nameA = (a.firstName || '').toLowerCase()
-        const nameB = (b.firstName || '').toLowerCase()
-        return nameA.localeCompare(nameB)
-      })
-  }
+const getFilteredContacts = () => {
+  if (!contacts) return []
+  
+  return contacts
+    .filter(contact => contact.phoneNumbers?.length > 0)
+    .filter(contact => {
+      const fullName = `${contact.firstName || ''} ${contact.middleName || ''} ${contact.lastName || ''}`.toLowerCase()
+      return fullName.includes(searchName.toLowerCase())
+    })
+    .sort((a, b) => {
+      // Create full names and remove all spaces
+      const fullNameA = `${a.firstName || ''} ${a.middleName || ''} ${a.lastName || ''}`.trim().toLowerCase().replace(/\s+/g, '')
+      const fullNameB = `${b.firstName || ''} ${b.middleName || ''} ${b.lastName || ''}`.trim().toLowerCase().replace(/\s+/g, '')
+      
+      // Compare characters one by one
+      const minLength = Math.min(fullNameA.length, fullNameB.length)
+      
+      for (let i = 0; i < minLength; i++) {
+        if (fullNameA[i] !== fullNameB[i]) {
+          return fullNameA[i].localeCompare(fullNameB[i])
+        }
+      }
+      
+      // If all characters match up to the minimum length,
+      // shorter name comes first
+      return fullNameA.length - fullNameB.length
+    })
+}
 
   return (
     <View style={styles.container}>
